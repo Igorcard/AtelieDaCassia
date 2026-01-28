@@ -1,47 +1,56 @@
-import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import * as usersRepository from '../repositories/users-repository.js'
-import { ConflictException, InternalServerErrorException, NotFoundException, UnauthorizedException } from '../../../shared/types/result-classes.js'
+import * as supabaseHelper from '../../../shared/utils/helpers/supabase-helper.js'
+import { ConflictException, InternalServerErrorException, NotFoundException, BadRequestException, UnauthorizedException } from '../../../shared/types/result-classes.js'
 import { User } from '../entities/user-entity.js'
-import { generateToken } from '../../../shared/utils/helpers/auth-helper.js'
 
 dotenv.config()
 
-export async function createUser({ email, password }) {
-  await verifyUserExists({email})
-
-  const userEntity = await User.create({ email, password, hashPassword })
+export async function createUser(dto) {
+  const { email, password, name } = dto
 
   try {
+    const { id } = await supabaseHelper.signUpUser({ email, password })
+
+    const userEntity = new User({ id, email, name })
+
     const user = await usersRepository.create(userEntity)
-    return user
+
+    return {
+      id: user.id,
+      email,
+      name: user.name,
+      role: user.role,
+      createdAt: user.createdAt,
+    }
+
   } catch (error) {
-    console.error(error)
-    throw new InternalServerErrorException({ message: 'Failed to create user', error: error.message })
+    if (error.message.includes('already registered')) {
+      throw new ConflictException('Email already exists')
+    }
+    throw new BadRequestException(error.message)
   }
 }
 
-async function hashPassword(password) {
-  const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS_USER_PASSWORD, 10)
-  return await bcrypt.hash(password, SALT_ROUNDS)
-}
+export async function loginUser(dto) {
+  const { email, password } = dto
 
-export async function loginUser({ email, password }) {
-  const user = await verifyUserExists({email})
+  try {
+    const { id, accessToken } = await supabaseHelper.signInUser({ email, password })
 
-  const isPasswordValid = await verifyPassword(password, user.password)
+    const user = await usersRepository.findBy({id})
 
-  if (!isPasswordValid) {
-    throw new UnauthorizedException('Invalid email or password')
+    return {
+      id,
+      email,
+      name: user?.name,
+      role: user?.role,
+      token: accessToken,
+    }
+
+  } catch (error) {
+    throw new UnauthorizedException('Invalid credentials')
   }
-
-  const token = generateToken(user.id)
-
-  return token
-}
-
-async function verifyPassword(password, hashedPassword) {
-  return await bcrypt.compare(password, hashedPassword)
 }
 
 export async function getUser(id) {

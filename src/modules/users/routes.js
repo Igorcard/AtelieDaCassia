@@ -5,7 +5,7 @@ import { authMiddleware } from '../../shared/middlewares/auth-middleware.js'
 
 const usersRouter = Router()
 
-usersRouter.post('/users', authMiddleware, asyncHandler(usersController.createUser))
+usersRouter.post('/users', asyncHandler(usersController.createUser))
 
 usersRouter.put('/users/:id', authMiddleware, asyncHandler(usersController.updateUser))
 
