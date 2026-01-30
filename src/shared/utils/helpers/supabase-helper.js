@@ -1,10 +1,11 @@
 import { adminClient, anonClient } from '../../infra/supabase/client.js'
+import { UnauthorizedException } from '../../types/result-classes.js'
 
 export async function getUserFromToken(token) {
   const { data: { user }, error } = await anonClient.auth.getUser(token)
 
   if (error || !user) {
-    throw new Error('Invalid token')
+    throw new UnauthorizedException('Invalid token')
   }
 
   return {

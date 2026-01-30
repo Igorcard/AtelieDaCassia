@@ -9,7 +9,7 @@ export class UserResponseDTO {
     this.id = user.id
     this.email = user.email
     this.name = user.name
-    this.role = user.role
+    this.roleId = user.roleId
     this.createdAt = user.createdAt
   }
 }

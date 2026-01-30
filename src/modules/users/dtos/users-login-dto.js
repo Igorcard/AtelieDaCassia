@@ -10,7 +10,7 @@ export class LoginUserResponseDTO {
     this.id = user.id
     this.email = user.email
     this.name = user.name
-    this.role = user.role
+    this.roleId = user.roleId
     this.token = user.token
   }
 }

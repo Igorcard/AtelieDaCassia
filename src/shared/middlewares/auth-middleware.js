@@ -1,5 +1,6 @@
 import { getUserFromToken } from '../utils/helpers/supabase-helper.js'
 import { UnauthorizedException } from '../types/result-classes.js'
+import * as usersRepository from '../../modules/users/repositories/users-repository.js'
 
 export async function authMiddleware(req, res, next) {
   try {
@@ -9,15 +10,27 @@ export async function authMiddleware(req, res, next) {
       throw new UnauthorizedException('Token missing')
     }
 
-    const { id, email } = await getUserFromToken(token)
+    const { id } = await getUserFromToken(token)
 
-    req.user = { id, email }
+    // Busca o usuário completo do banco para pegar o roleId
+    const user = await usersRepository.findBy({ id })
+
+    if (!user) {
+      throw new UnauthorizedException('User not found')
+    }
+
+    req.user = {
+      id: user.id,
+      email: user.email,
+      roleId: user.roleId
+    }
 
     return next()
   } catch (error) {
+    // Em middlewares async, sempre use next(error) ao invés de throw
     if (error instanceof UnauthorizedException) {
-      throw error
+      return next(error)
     }
-    throw new UnauthorizedException('Invalid token')
+    return next(new UnauthorizedException('Invalid token'))
   }
 }

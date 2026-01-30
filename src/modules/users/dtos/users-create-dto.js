@@ -3,5 +3,6 @@ export class CreateUserDTO {
     this.email = String(body.email ?? '').trim().toLowerCase()
     this.password = String(body.password ?? '')
     this.name = String(body.name ?? '')
+    this.roleId = Number(body.roleId ?? 1)
   }
 }

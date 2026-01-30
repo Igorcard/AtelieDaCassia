@@ -14,10 +14,10 @@ export async function findBy(params) {
   return user
 }
 
-export async function update(id, { email, password }) {
+export async function update(id, payload) {
   const user = await prisma.user.update({
     where: { id },
-    data: { email, password },
+    data: payload,
   })
   return user
 }

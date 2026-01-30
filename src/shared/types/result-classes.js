@@ -33,3 +33,9 @@ export class BadGatewayException {
     this.message = { error: message }
   }
 }
+
+export class ForbiddenException {
+  constructor(message) {
+    this.message = { error: message }
+  }
+}

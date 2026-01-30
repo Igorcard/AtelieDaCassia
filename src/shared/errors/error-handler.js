@@ -1,5 +1,5 @@
-import { badRequest, notFound, unauthorized, badGateway, internalServerError, conflict } from '../utils/helpers/result-helper.js'
-import { BadRequestException, UnauthorizedException, NotFoundException, InternalServerErrorException, BadGatewayException, ConflictException } from '../types/result-classes.js'
+import { badRequest, notFound, unauthorized, badGateway, internalServerError, conflict, forbidden } from '../utils/helpers/result-helper.js'
+import { BadRequestException, UnauthorizedException, NotFoundException, InternalServerErrorException, BadGatewayException, ConflictException, ForbiddenException } from '../types/result-classes.js'
 
 export function errorHandler(error, res) {
   if (error instanceof BadRequestException) {
@@ -24,6 +24,10 @@ export function errorHandler(error, res) {
 
   if (error instanceof ConflictException) {
     return conflict(res, error.message)
+  }
+
+  if (error instanceof ForbiddenException) {
+    return forbidden(res, error.message)
   }
 
   return internalServerError(res, error)

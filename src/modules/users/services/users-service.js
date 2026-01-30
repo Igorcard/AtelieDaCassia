@@ -1,18 +1,24 @@
 import dotenv from 'dotenv'
 import * as usersRepository from '../repositories/users-repository.js'
 import * as supabaseHelper from '../../../shared/utils/helpers/supabase-helper.js'
+import * as usersRolesRepository from '../../usersroles/repositories/usersroles-repository.js'
 import { ConflictException, InternalServerErrorException, NotFoundException, BadRequestException, UnauthorizedException } from '../../../shared/types/result-classes.js'
 import { User } from '../entities/user-entity.js'
 
 dotenv.config()
 
 export async function createUser(dto) {
-  const { email, password, name } = dto
+  const { email, password, name, roleId } = dto
+
+  const usersRole = await usersRolesRepository.findBy({ id: roleId })
+  if (!usersRole) {
+    throw new NotFoundException('Role not found')
+  }
 
   try {
     const { id } = await supabaseHelper.signUpUser({ email, password })
 
-    const userEntity = new User({ id, email, name })
+    const userEntity = new User({ id, email, name, roleId })
 
     const user = await usersRepository.create(userEntity)
 
@@ -20,7 +26,7 @@ export async function createUser(dto) {
       id: user.id,
       email,
       name: user.name,
-      role: user.role,
+      roleId: user.roleId,
       createdAt: user.createdAt,
     }
 
@@ -44,7 +50,7 @@ export async function loginUser(dto) {
       id,
       email,
       name: user?.name,
-      role: user?.role,
+      roleId: user?.roleId,
       token: accessToken,
     }
 
@@ -76,11 +82,22 @@ export async function getUsers() {
   return users
 }
 
-export async function updateUser(id, { email, password }) {
+export async function updateUser(id, dto) {
+  const { name, roleId, password } = dto
+
   await verifyUserExists({id})
 
+  const usersRole = await usersRolesRepository.findBy({ id: roleId })
+  if (!usersRole) {
+    throw new NotFoundException('Role not found')
+  }
+
+  if (password) {
+    await supabaseHelper.updateUserPassword({ userId: id, password })
+  }
+
   try {
-    const user = await usersRepository.update(id, { email, password })
+    const user = await usersRepository.update(id, { name, roleId })
     return user
   } catch (error) {
     console.error(error)

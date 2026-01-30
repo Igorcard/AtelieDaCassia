@@ -1,7 +1,7 @@
 export class UpdateUserDTO {
   constructor(body) {
-    this.email = String(body.email ?? '').trim().toLowerCase()
-    this.password = String(body.password ?? '')
     this.name = String(body.name ?? '')
+    this.roleId = Number(body.roleId ?? 1)
+    this.password = String(body.password ?? '')
   }
 }
