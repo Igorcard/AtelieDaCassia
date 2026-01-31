@@ -12,7 +12,6 @@ export async function authMiddleware(req, res, next) {
 
     const { id } = await getUserFromToken(token)
 
-    // Busca o usuário completo do banco para pegar o roleId
     const user = await usersRepository.findBy({ id })
 
     if (!user) {
@@ -27,7 +26,6 @@ export async function authMiddleware(req, res, next) {
 
     return next()
   } catch (error) {
-    // Em middlewares async, sempre use next(error) ao invés de throw
     if (error instanceof UnauthorizedException) {
       return next(error)
     }

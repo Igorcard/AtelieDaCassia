@@ -27,3 +27,44 @@ model UsersRoles {
 
   @@map("usersroles")
 }
+
+model Products {
+  id          Int      @id @default(autoincrement())
+  description String
+  sku         String   @unique
+  salePrice   Decimal  @db.Decimal(10, 2)
+  costPrice   Decimal  @db.Decimal(10, 2)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  inventory          Inventory?
+  inventoryHistories InventoryHistories[]
+
+  @@map("products")
+}
+
+model Inventory {
+  id        Int      @id @default(autoincrement())
+  quantity  Int
+  productId Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("inventory")
+}
+
+model InventoryHistories {
+  id          Int      @id @default(autoincrement())
+  quantity    Int
+  productId   Int
+  type        String
+  referenceId Int
+  createdAt   DateTime @default(now())
+
+  product Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("inventoryhistories")
+}

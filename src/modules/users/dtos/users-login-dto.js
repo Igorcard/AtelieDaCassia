@@ -1,7 +1,28 @@
+import { validateSchema } from '../../../shared/utils/helpers/validator-helper.js'
+
+const schemas = {
+  loginUser: {
+    email: {
+      type: 'string',
+      required: true,
+    },
+    password: {
+      type: 'string',
+      required: true,
+    },
+  },
+}
+
+
 export class LoginUserDTO {
   constructor(body) {
-    this.email = String(body.email ?? '').trim().toLowerCase()
-    this.password = String(body.password ?? '')
+    validateSchema(body, schemas.loginUser)
+    if (body.email !== undefined) {
+      this.email = String(body.email).trim().toLowerCase()
+    }
+    if (body.password !== undefined) {
+      this.password = String(body.password)
+    }
   }
 }
 
