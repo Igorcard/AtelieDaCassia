@@ -6,3 +6,8 @@ export async function create(payload){
   })
   return inventoryHistory
 }
+
+export async function findMany(params) {
+  const inventoryHistories = await prisma.inventoryHistories.findMany(params)
+  return inventoryHistories
+}

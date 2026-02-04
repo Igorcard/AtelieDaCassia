@@ -11,6 +11,6 @@ productsRouter.post('/product', authMiddleware, requireRole(USERS_ROLES.ADMIN), 
 productsRouter.put('/product/:id', authMiddleware, requireRole(USERS_ROLES.ADMIN), asyncHandler(productsController.updateProduct))
 productsRouter.delete('/product/:id', authMiddleware, requireRole(USERS_ROLES.ADMIN), asyncHandler(productsController.deleteProduct))
 productsRouter.get('/product/:id', authMiddleware, asyncHandler(productsController.getProduct))
-productsRouter.get('/products', authMiddleware, asyncHandler(productsController.getProducts))
+productsRouter.post('/products', authMiddleware, asyncHandler(productsController.getProducts))
 
 export default productsRouter

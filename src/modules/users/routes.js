@@ -9,13 +9,13 @@ const usersRouter = Router()
 
 usersRouter.post('/user', asyncHandler(usersController.createUser))
 
-usersRouter.put('/user/:id', authMiddleware, asyncHandler(usersController.updateUser))
+usersRouter.put('/user/:id', requireRole(USERS_ROLES.ADMIN), authMiddleware, asyncHandler(usersController.updateUser))
 
-usersRouter.delete('/user/:id', authMiddleware, asyncHandler(usersController.deleteUser))
+usersRouter.delete('/user/:id', requireRole(USERS_ROLES.ADMIN), authMiddleware, asyncHandler(usersController.deleteUser))
 
-usersRouter.get('/users/:id', authMiddleware, asyncHandler(usersController.getUser))
+usersRouter.get('/users/:id', requireRole(USERS_ROLES.ADMIN), authMiddleware, asyncHandler(usersController.getUser))
 
-usersRouter.get('/users', authMiddleware, requireRole(USERS_ROLES.ADMIN), asyncHandler(usersController.getUsers))
+usersRouter.get('/users', requireRole(USERS_ROLES.ADMIN), authMiddleware, asyncHandler(usersController.getUsers))
 
 usersRouter.post('/login', asyncHandler(usersController.loginUser))
 

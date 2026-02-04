@@ -3,7 +3,11 @@ export class InventoryResponseDTO {
     this.id = inventory.id
     this.quantity = inventory.quantity
     this.productId = inventory.productId
-    this.createdAt = inventory.createdAt
-    this.updatedAt = inventory.updatedAt
+  }
+}
+
+export class InventoriesResponseDTO {
+  constructor(inventories) {
+    this.inventories = inventories.map(inventory => new InventoryResponseDTO(inventory))
   }
 }

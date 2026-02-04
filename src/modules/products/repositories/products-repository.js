@@ -26,7 +26,7 @@ export async function remove(params) {
   await prisma.products.delete({ where: params })
 }
 
-export async function findAll() {
-  const products = await prisma.products.findMany()
+export async function findMany(params) {
+  const products = await prisma.products.findMany(params)
   return products
 }

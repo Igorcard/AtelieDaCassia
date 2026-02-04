@@ -13,3 +13,19 @@ export async function findBy(params){
   })
   return inventory
 }
+
+
+export async function update(params, payload){
+  const inventory = await prisma.inventory.update({
+    where: params,
+    data: payload,
+  })
+  return inventory
+}
+
+export async function findMany(params){
+  const inventories = await prisma.inventory.findMany({
+    where: params,
+  })
+  return inventories
+}

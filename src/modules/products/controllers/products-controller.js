@@ -1,7 +1,7 @@
 import { ok } from '../../../shared/utils/helpers/result-helper.js'
 import { CreateProductDTO, CreateProductResponseDTO } from '../dtos/products-create-dto.js'
 import { UpdateProductDTO } from '../dtos/products-update-dto.js'
-import { ProductResponseDTO, ProductsResponseDTO } from '../dtos/products-get-dto.js'
+import { ProductResponseDTO, ProductsResponseDTO, GetProductsDTO } from '../dtos/products-get-dto.js'
 import * as productsService from '../services/products-service.js'
 
 export async function createProduct(req, res) {
@@ -11,7 +11,8 @@ export async function createProduct(req, res) {
 }
 
 export async function getProducts(req, res) {
-  const products = await productsService.getProducts()
+  const dto = new GetProductsDTO(req.body)
+  const products = await productsService.getProducts(dto)
   return ok(res, new ProductsResponseDTO(products))
 }
 

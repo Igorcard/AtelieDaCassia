@@ -1,7 +1,9 @@
 import dotenv from 'dotenv'
 import { ConflictException, InternalServerErrorException, NotFoundException } from '../../../shared/types/result-classes.js'
 import { Product } from '../entities/product-entity.js'
+import { InventoryHistoriesType } from '../../inventoryHistories/entities/inventory-histories-type-entity.js'
 import * as productsRepository from '../repositories/products-repository.js'
+import * as inventoryRepository from '../../inventory/repositories/inventory-repository.js'
 import { withTransaction } from '../../../shared/utils/helpers/transaction-helper.js'
 
 dotenv.config()
@@ -37,7 +39,7 @@ export async function createProduct(dto) {
       data: {
         quantity: dto.quantity,
         productId: product.id,
-        type: 'INITIAL_STOCK',
+        type: InventoryHistoriesType.CREATED,
         referenceId: product.id
       }
     })
@@ -46,11 +48,39 @@ export async function createProduct(dto) {
   })
 }
 
-export async function getProducts() {
+export async function getProducts(dto) {
   let products
+  const page = Number.isFinite(dto.page) ? Math.max(1, dto.page) : 1
+  const limit = Number.isFinite(dto.limit) ? Math.max(1, dto.limit) : 20
+  const skip = (page - 1) * limit
 
+  const where = {}
+  if (dto.description) {
+    where.description = { contains: dto.description, mode: 'insensitive' }
+  }
+
+  if (dto.sku) {
+    where.sku = { contains: dto.sku, mode: 'insensitive' }
+  }
+
+  if (dto.salePrice) {
+    where.salePrice = { equals: dto.salePrice }
+  }
+
+  if (dto.costPrice) {
+    where.costPrice = { equals: dto.costPrice }
+  }
+
+  if (dto.active) {
+    where.active = { equals: dto.active }
+  }
+
+  const allowedOrderBy = new Set(['id', 'createdAt', 'updatedAt', 'description', 'sku', 'salePrice', 'costPrice', 'active'])
+  const orderByField = allowedOrderBy.has(dto.orderBy) ? dto.orderBy : 'createdAt'
+  const orderDirection = dto.orderDirection === 'asc' ? 'asc' : 'desc'
+  const orderBy = { [orderByField]: orderDirection }
   try {
-    products = await productsRepository.findAll()
+    products = await productsRepository.findMany({ where, skip, take: limit, orderBy })
   } catch (error) {
     console.error(error)
     throw new InternalServerErrorException({ message: 'Failed to get products', error: error.message })
@@ -59,6 +89,12 @@ export async function getProducts() {
   if (!products || products.length === 0) {
     throw new NotFoundException({ message: 'Products not found' })
   }
+
+  products = await Promise.all(products.map(async (product) => {
+    const inventory = await inventoryRepository.findBy({ productId: product.id })
+    product.inventory = inventory
+    return product
+  }))
 
   return products
 }
@@ -76,6 +112,10 @@ export async function getProduct(id) {
   if (!product) {
     throw new NotFoundException({ message: 'Product not found' })
   }
+
+  const inventory = await inventoryRepository.findBy({ productId: product.id })
+
+  product.inventory = inventory
 
   return product
 }
