@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import * as usersRepository from '../repositories/users-repository.js'
 import * as supabaseHelper from '../../../shared/utils/helpers/supabase-helper.js'
-import * as usersRolesRepository from '../../usersroles/repositories/usersroles-repository.js'
+import * as usersRolesRepository from '../../users-roles/repositories/users-roles-repository.js'
 import { ConflictException, InternalServerErrorException, NotFoundException, BadRequestException, UnauthorizedException } from '../../../shared/types/result-classes.js'
 import { User } from '../entities/user-entity.js'
 

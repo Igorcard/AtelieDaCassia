@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { asyncHandler } from '../../shared/middlewares/async-handler-middleware.js'
 import { authMiddleware } from '../../shared/middlewares/auth-middleware.js'
 import { requireRole } from '../../shared/middlewares/role-middleware.js'
-import { USERS_ROLES } from '../usersroles/helper/usersroles-helper.js'
+import { USERS_ROLES } from '../users-roles/helper/users-roles-helper.js'
 import * as productsController from './controllers/products-controller.js'
 
 const productsRouter = Router()

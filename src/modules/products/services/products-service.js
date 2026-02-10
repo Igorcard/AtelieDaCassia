@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { ConflictException, InternalServerErrorException, NotFoundException } from '../../../shared/types/result-classes.js'
 import { Product } from '../entities/product-entity.js'
-import { InventoryHistoriesType } from '../../inventoryHistories/entities/inventory-histories-type-entity.js'
+import { InventoryHistoriesType } from '../../inventory-histories/entities/inventory-histories-type-entity.js'
 import * as productsRepository from '../repositories/products-repository.js'
 import * as inventoryRepository from '../../inventory/repositories/inventory-repository.js'
 import { withTransaction } from '../../../shared/utils/helpers/transaction-helper.js'
