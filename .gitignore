@@ -31,6 +31,3 @@ build/
 # Coverage
 coverage/
 .nyc_output/
-
-# Prisma
-prisma/migrations/
