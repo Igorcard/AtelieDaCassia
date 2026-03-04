@@ -1,7 +1,0 @@
-export const OrderStatus = Object.freeze({
-  PENDING: 'PENDING',
-  CONFIRMED: 'CONFIRMED',
-  SHIPPED: 'SHIPPED',
-  DELIVERED: 'DELIVERED',
-  CANCELLED: 'CANCELLED',
-})

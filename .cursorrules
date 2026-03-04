@@ -1,9 +1,0 @@
-# Regras do projeto Atelie da Cassia
-
-- Leia o contexto do projeto em **claude.md** antes de alterar código.
-- Para tarefas específicas, use o agente correspondente em **docs/ai/agents/** (backend, frontend, database, fullstack).
-- Código (nomes de arquivos, funções, variáveis) em **inglês**; comentários/docs podem ser em português.
-- Backend: seguir o padrão do projeto (routes → controller → service → repository; DTOs/entities quando existirem).
-- Erros: usar classes de `backend/src/shared/types/result-classes.js` e o error-handler; não inventar novos padrões de resposta.
-- Não crie README ou documentação extra a menos que o usuário peça.
-- Prisma: não editar migrations já aplicadas; commitar novas migrations.
