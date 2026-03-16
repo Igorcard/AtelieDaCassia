@@ -46,7 +46,7 @@ JWT_SECRET=
 |----------------------|------------------------------|
 | `npm run dev`        | Sobe o backend (nodemon)     |
 | `npm run dev:backend`| Idem                         |
-| `npm run dev:frontend` | Sobe o frontend (quando existir) |
+| `npm run dev:frontend` | Sobe o frontend (Vite, porta 5173) |
 | `npm run start:backend` | Backend em produção (node)   |
 
 **Dentro de `backend/`:**
@@ -80,6 +80,14 @@ GET http://localhost:3333/health
 
 Resposta esperada: `{ "status": "ok", "message": "Server is running" }`.
 
-## Frontend
+## Frontend (`frontend/`)
 
-Quando existir, terá seus próprios scripts e env (ex.: `frontend/.env` com `VITE_API_URL` ou similar). Será documentado aqui e em `docs/ai/agents/frontend.md`.
+- **Stack:** React, Vite, React Router, axios, Tailwind CSS v4.
+- **Scripts (dentro de `frontend/`):** `npm run dev`, `npm run build`, `npm run preview`, `npm run lint`.
+- **Variáveis de ambiente:** crie `frontend/.env` (não versionado). Exemplo:
+  ```env
+  VITE_API_URL=http://localhost:3333
+  ```
+  Use `frontend/.env.example` como referência. A URL deve apontar para o backend.
+- **Porta em dev:** 5173 (Vite). O frontend consome a API em `VITE_API_URL` (default 3333).
+- **Documentação detalhada:** `docs/ai/agents/frontend.md` e `docs/frontend-react-checklist.md`.

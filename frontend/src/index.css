@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — Ateliê da Cássia (moda premium)
+ * Paleta: Primary #4A5E76, Secondary #2B2F43, Neutral #BDC3C2, Background #FFFFFF, Accent #F4794A
+ */
+@theme {
+  /* Cores de marca (premium fashion) */
+  --color-primary: #4A5E76;
+  --color-primary-hover: #3d4f64;
+  --color-secondary: #2B2F43;
+  --color-secondary-hover: #1e212f;
+  --color-neutral: #BDC3C2;
+  --color-neutral-light: #e8ebea;
+  --color-background: #FFFFFF;
+  --color-accent: #F4794A;
+  --color-accent-hover: #e06838;
+
+  /* Tipografia */
+  --font-serif: "Cormorant Garamond", "Georgia", serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Base: reset e corpo */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  color: var(--color-secondary);
+  background-color: var(--color-background);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Transições suaves globais */
+a, button {
+  transition: color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Utilitários para títulos serif */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}

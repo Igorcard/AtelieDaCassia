@@ -75,11 +75,13 @@ Todos os caminhos acima são relativos a `backend/src/shared/`.
 
 ---
 
-## Frontend (planejado)
+## Frontend (`frontend/`)
 
-- Ainda não implementado.
-- Deve consumir a API do backend (base URL configurável, ex.: env).
-- Estrutura (pasta, framework, estado global) a definir; quando existir, será documentada aqui e em `docs/ai/agents/frontend.md`.
+- **Stack:** React 18, Vite 5, React Router, axios, Tailwind CSS v4 (`@tailwindcss/vite`).
+- **Estado:** AuthContext (JWT, localStorage), CartContext (carrinho em localStorage).
+- **Estrutura:** `src/pages/` (telas), `src/components/`, `src/contexts/`, `src/services/`, `src/hooks/`, `src/utils/`, `src/config/`, `src/assets/`, `src/styles/`.
+- Consome a API do backend via `VITE_API_URL` (default `http://localhost:3333`). Autenticação: header `Authorization: Bearer <token>`.
+- Detalhes e convenções em `docs/ai/agents/frontend.md`.
 
 ---
 
