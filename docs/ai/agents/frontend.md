@@ -2,26 +2,52 @@
 
 Use este contexto quando a tarefa for **criar ou alterar** o frontend: telas, componentes, estado, chamadas à API e UX.
 
+**Stack:** React (Vite), React Router, axios, Tailwind v4. Checklist completo: **`docs/frontend-react-checklist.md`**. Item 10 (monorepo e docs) concluído.
+
 ---
 
 ## Estado atual
 
-A pasta **`frontend/`** existe na raiz do repositório, mas o app ainda não foi implementado (apenas `package.json` mínimo). Este arquivo serve como contrato e guia para quando for implementado.
+A pasta **`frontend/`** contém o app React (Vite); estrutura e fluxos iniciais já implementados.
 
-Planejado:
-- Código do frontend em `frontend/`.
-- Consumir a API do backend (base URL configurável, ex.: `http://localhost:3333`).
-- Autenticação via token JWT (ex.: header `Authorization: Bearer <token>`).
+Implementado:
+- **React + Vite** em `frontend/`.
+- Consumir a API do backend (base URL em `VITE_API_URL`); cliente em `src/services/api.js`.
+- Autenticação JWT: **AuthContext** (`src/contexts/AuthContext.jsx`), token e usuário em **localStorage**; **ProtectedRoute** em `src/components/ProtectedRoute.jsx`; login em `LoginPage`, área logada em `/account`.
 
 ---
 
-## Quando o frontend existir, documentar aqui
+## Stack
 
-1. **Stack:** framework (React, Vue, etc.), gerenciamento de estado, roteamento, chamadas HTTP (axios, fetch, etc.).
-2. **Estrutura de pastas:** ex. `pages/`, `components/`, `services/`, `store/`, `hooks/`.
-3. **Convenções:** nomes de componentes, idioma (código em inglês), estilo (CSS modules, Tailwind, etc.).
-4. **API:** base URL (ex. `import.meta.env.VITE_API_URL`), formato de erro (objeto com `error` ou `message`), uso de token em todas as rotas autenticadas.
-5. **Fluxos principais:** login, listagem de produtos, carrinho, checkout, painel admin (se houver).
+- **React** + **Vite**, **React Router**, **axios**.
+- Estado global: **Context** (AuthContext). Token e usuário em **localStorage**.
+- **Estilo:** Tailwind CSS v4 (`@tailwindcss/vite`). Tokens em `src/index.css` (`@theme`). Padrões em `src/styles/README.md`.
+
+## Estrutura de pastas (`frontend/src/`)
+
+| Pasta | Uso |
+|-------|-----|
+| `components/` | Componentes reutilizáveis (ex.: ProtectedRoute). |
+| `config/` | Configuração (env.js com API_URL). |
+| `contexts/` | Contextos React (AuthContext). |
+| `hooks/` | Hooks customizados; re-export de useAuth e futuros hooks. |
+| `pages/` | Uma pasta por rota: HomePage, LoginPage, AccountPage, ProductListPage, ProductDetailPage. |
+| `services/` | Cliente HTTP (api.js) e funções que chamam endpoints. |
+| `utils/` | Helpers (ex.: formatCurrency em utils/format.js). |
+| `assets/` | Imagens, ícones, fontes. |
+
+Arquivos na raiz de `src/`: `App.jsx`, `main.jsx`, `index.css`, `App.css`.
+
+## Convenções
+
+- **Nomes:** componentes e arquivos em inglês (HomePage, LoginPage, useAuth).
+- **Rotas:** `/` (home), `/login`, `/products`, `/product/:id`, `/account` (protegida).
+
+## API
+
+- Base URL: `import.meta.env.VITE_API_URL` (centralizado em `config/env.js` como `API_URL`).
+- Token: header `Authorization: Bearer <token>`; cliente em `services/api.js` adiciona automaticamente.
+- Erros: usar `getErrorMessage(error)` de `services/api.js` para exibir mensagem do backend.
 
 ---
 

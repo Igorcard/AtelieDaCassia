@@ -7,10 +7,10 @@ Este documento é o **ponto de entrada** para qualquer assistente ou agente que 
 ## O que é o projeto
 
 - **Nome:** Atelie da Cassia
-- **Tipo:** E-commerce (backend API + frontend planejado)
+- **Tipo:** E-commerce (backend API + frontend React)
 - **Backend:** Node.js (ESM), Express, Prisma, PostgreSQL
 - **Auth:** JWT + Supabase (usuários podem vir do Supabase)
-- **Frontend:** Pasta `frontend/` existe; o app ainda será implementado (React/Vue/etc.).
+- **Frontend:** React (Vite), em `frontend/`; login, produtos, carrinho, checkout e área logada implementados.
 
 ---
 
@@ -53,8 +53,18 @@ AtelieDaCassia/
 │           ├── errors/       ← error-handler
 │           ├── types/        ← result-classes, orders-status
 │           └── utils/        ← helpers, routes-exports
-└── frontend/                 ← App frontend (a ser implementado)
-    └── package.json
+└── frontend/                 ← App React (Vite, Tailwind)
+    ├── package.json
+    ├── src/
+    │   ├── pages/            ← Home, Login, Products, Cart, Checkout, Account
+    │   ├── components/       ← ProtectedRoute, etc.
+    │   ├── contexts/         ← AuthContext, CartContext
+    │   ├── services/         ← api.js, productsService, ordersService
+    │   ├── config/           ← env.js
+    │   ├── hooks/            ← useAuth (re-export)
+    │   ├── utils/            ← format.js
+    │   └── styles/           ← README (tokens Tailwind)
+    └── .env.example          ← VITE_API_URL
 ```
 
 ---

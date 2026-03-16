@@ -1,0 +1,14 @@
+/* Layout global — moda premium */
+.app {
+  min-height: 100vh;
+}
+
+.app main {
+  padding-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .app main {
+    padding-bottom: 0;
+  }
+}
