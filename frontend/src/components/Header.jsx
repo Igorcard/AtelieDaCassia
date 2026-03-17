@@ -7,7 +7,7 @@ export default function Header() {
   const { count } = useCart()
 
   return (
-    <header className="bg-background border-b border-neutral-light">
+    <header className="bg-background border-b border-neutral-light/80 shadow-sm">
       <nav className="max-w-7xl mx-auto flex items-center justify-between gap-6 py-5 px-4 sm:px-6 lg:px-8">
         <Link
           to="/"

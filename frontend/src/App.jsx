@@ -15,7 +15,7 @@ function AppLayout() {
   return (
     <div className="app flex flex-col min-h-screen">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 min-h-0 flex flex-col bg-surface">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
