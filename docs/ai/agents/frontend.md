@@ -11,11 +11,16 @@ Use este contexto quando a tarefa for **criar ou alterar** o frontend: telas, co
 A pasta **`frontend/`** contém o app React (Vite); estrutura e fluxos iniciais já implementados.
 
 Implementado:
+
 - **React + Vite** em `frontend/`.
 - Consumir a API do backend (base URL em `VITE_API_URL`); cliente em `src/services/api.js`.
 - Autenticação JWT: **AuthContext** (`src/contexts/AuthContext.jsx`), token e usuário em **localStorage**; **ProtectedRoute** em `src/components/ProtectedRoute.jsx`; login em `LoginPage`, área logada em `/account`.
 
 ---
+
+##Regra
+
+- **Sempre** Utilizar as skills ui-ux-pro-max
 
 ## Stack
 
@@ -25,16 +30,16 @@ Implementado:
 
 ## Estrutura de pastas (`frontend/src/`)
 
-| Pasta | Uso |
-|-------|-----|
-| `components/` | Componentes reutilizáveis (ex.: ProtectedRoute). |
-| `config/` | Configuração (env.js com API_URL). |
-| `contexts/` | Contextos React (AuthContext). |
-| `hooks/` | Hooks customizados; re-export de useAuth e futuros hooks. |
-| `pages/` | Uma pasta por rota: HomePage, LoginPage, AccountPage, ProductListPage, ProductDetailPage. |
-| `services/` | Cliente HTTP (api.js) e funções que chamam endpoints. |
-| `utils/` | Helpers (ex.: formatCurrency em utils/format.js). |
-| `assets/` | Imagens, ícones, fontes. |
+| Pasta         | Uso                                                                                       |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| `components/` | Componentes reutilizáveis (ex.: ProtectedRoute).                                          |
+| `config/`     | Configuração (env.js com API_URL).                                                        |
+| `contexts/`   | Contextos React (AuthContext).                                                            |
+| `hooks/`      | Hooks customizados; re-export de useAuth e futuros hooks.                                 |
+| `pages/`      | Uma pasta por rota: HomePage, LoginPage, AccountPage, ProductListPage, ProductDetailPage. |
+| `services/`   | Cliente HTTP (api.js) e funções que chamam endpoints.                                     |
+| `utils/`      | Helpers (ex.: formatCurrency em utils/format.js).                                         |
+| `assets/`     | Imagens, ícones, fontes.                                                                  |
 
 Arquivos na raiz de `src/`: `App.jsx`, `main.jsx`, `index.css`, `App.css`.
 
