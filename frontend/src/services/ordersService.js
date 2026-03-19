@@ -1,14 +1,26 @@
 import api from './api.js'
 
-/**
- * Create order. Requires auth. userId is set by backend from token.
- * @param {{ status: string, total: number, items: Array<{ productId: number, quantity: number, unitPrice: number }> }} payload
- */
+function toApiShippingAddress(addr) {
+  if (!addr) return undefined
+  return {
+    postalCode: addr.postalCode ?? addr.cep,
+    street: addr.street,
+    number: addr.number,
+    complement: addr.complement || undefined,
+    district: addr.district || undefined,
+    city: addr.city,
+    state: addr.state ?? addr.uf,
+  }
+}
+
 export async function createOrder(payload) {
   const { data } = await api.post('/orders', {
     status: payload.status || 'PENDING',
-    total: payload.total,
-    items: payload.items,
+    items: payload.items.map(({ productId, quantity }) => ({
+      productId,
+      quantity,
+    })),
+    shippingAddress: toApiShippingAddress(payload.shippingAddress),
   })
   return data
 }

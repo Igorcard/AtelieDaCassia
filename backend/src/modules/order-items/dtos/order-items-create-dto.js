@@ -20,9 +20,6 @@ export class OrderItemDTO {
     if (item.quantity !== undefined) {
       this.quantity = Number(item.quantity)
     }
-    if (item.unitPrice !== undefined) {
-      this.unitPrice = Number(item.unitPrice)
-    }
   }
 }
 
@@ -37,11 +34,6 @@ export const schemas = {
       type: 'number',
       required: true,
       min: 1,
-    },
-    unitPrice: {
-      type: 'number',
-      required: true,
-      min: 0,
     },
   },
 }

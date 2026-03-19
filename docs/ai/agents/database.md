@@ -19,7 +19,9 @@ Todos os caminhos são relativos à raiz do repositório. O backend está em **`
 
 - **User** — id (UUID), name, email, roleId, timestamps. Relação com UsersRoles e Orders.
 - **UsersRoles** — id, name. Roles dos usuários.
-- **Products** — id, description, sku (unique), salePrice, costPrice, active, timestamps. Relações: Inventory, InventoryHistories, OrderItems.
+- **Gateway** — code (unique), purpose, baseUrl, active, endpoints. Integrações externas (ex.: Melhor Envio).
+- **GatewayEndpoint** — gatewayId, code (ex.: SHIPMENT_CALCULATE), httpMethod, path, description. Ver `docs/gateways-endpoints.md`.
+- **Products** — id, description, sku (unique), salePrice, costPrice, active, campos opcionais de embalagem (shippingWeightKg, shipping*Cm), timestamps. Relações: Inventory, InventoryHistories, OrderItems.
 - **Inventory** — id, quantity, productId (unique), timestamps. 1:1 com Products, onDelete Cascade.
 - **InventoryHistories** — id, quantity, productId, type, referenceId, createdAt. Histórico de movimentações.
 - **Orders** — id, userId, status (enum), total, timestamps. Relações: User, OrderItems.

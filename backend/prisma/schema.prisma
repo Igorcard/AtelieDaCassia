@@ -29,6 +29,34 @@ model UsersRoles {
   @@map("usersroles")
 }
 
+model Gateway {
+  id        Int               @id @default(autoincrement())
+  code      String            @unique
+  purpose   String
+  baseUrl   String
+  active    Boolean           @default(true)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  endpoints GatewayEndpoint[]
+
+  @@map("gateways")
+}
+
+model GatewayEndpoint {
+  id          Int      @id @default(autoincrement())
+  gatewayId   Int
+  code        String
+  httpMethod  String   @default("POST")
+  path        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  gateway     Gateway  @relation(fields: [gatewayId], references: [id], onDelete: Cascade)
+
+  @@unique([gatewayId, code])
+  @@map("gateway_endpoints")
+}
+
 model Products {
   id          Int      @id @default(autoincrement())
   description String
@@ -36,6 +64,10 @@ model Products {
   salePrice   Decimal  @db.Decimal(10, 2)
   costPrice   Decimal  @db.Decimal(10, 2)
   active      Boolean  @default(true)
+  shippingWeightKg  Decimal? @db.Decimal(10, 3)
+  shippingLengthCm  Int?
+  shippingWidthCm   Int?
+  shippingHeightCm  Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -72,12 +104,20 @@ model InventoryHistories {
 }
 
 model Orders {
-  id        Int         @id @default(autoincrement())
-  userId    String      @db.Uuid
-  status    OrderStatus @default(PENDING)
-  total     Decimal     @db.Decimal(10, 2)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id                   Int         @id @default(autoincrement())
+  userId               String      @db.Uuid
+  status               OrderStatus @default(PENDING)
+  total                Decimal     @db.Decimal(10, 2)
+  shippingAmount       Decimal     @db.Decimal(10, 2)
+  deliveryPostalCode   String
+  deliveryStreet       String
+  deliveryNumber       String
+  deliveryComplement   String?
+  deliveryDistrict     String?
+  deliveryCity         String
+  deliveryState        String
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
 
   user  User         @relation(fields: [userId], references: [id])
   items OrderItems[]
