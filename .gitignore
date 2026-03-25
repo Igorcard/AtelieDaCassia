@@ -24,6 +24,10 @@ Thumbs.db
 *.swo
 *~
 
+# Python bytecode (ex.: skills com scripts .py no .cursor)
+__pycache__/
+*.pyc
+
 # Build
 dist/
 build/
