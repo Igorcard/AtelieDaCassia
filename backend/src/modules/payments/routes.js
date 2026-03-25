@@ -1,9 +1,14 @@
 import { Router } from 'express'
+import { authMiddleware } from '../../shared/middlewares/auth-middleware.js'
+import { asyncHandler } from '../../shared/middlewares/async-handler-middleware.js'
+import * as paymentsController from './controllers/payments-controller.js'
 
 const paymentsRouter = Router()
 
-paymentsRouter.get('/payments', (req, res) => {
-  res.json({ message: 'Hello World' })
-})
+paymentsRouter.post(
+  '/payments/mercadopago/checkout',
+  authMiddleware,
+  asyncHandler(paymentsController.createMercadoPagoCheckout),
+)
 
 export default paymentsRouter

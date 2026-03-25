@@ -30,3 +30,20 @@ export async function findMany(params) {
   const orders = await prisma.orders.findMany(params)
   return orders
 }
+
+export async function findByIdWithCheckoutData(orderId, userId) {
+  return prisma.orders.findFirst({
+    where: { id: orderId, userId },
+    include: {
+      items: { include: { product: true } },
+      payment: true,
+    },
+  })
+}
+
+export async function findByIdWithPayment(orderId) {
+  return prisma.orders.findUnique({
+    where: { id: orderId },
+    include: { payment: true },
+  })
+}
